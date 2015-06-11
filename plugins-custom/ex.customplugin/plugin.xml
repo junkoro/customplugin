@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+Apache Cordova API Documentation
+https://cordova.apache.org/docs/en/5.0.0/plugin_ref_spec.md.html#Plugin%20Specification
+
+このファイルを変更後は
+「ionic plugin rm ex.customplugin」と
+「ionic plugin add plugins-custom/ex.customplugin」の
+併用でプラグインを更新しないとシステムが壊れる
+
+-->
+<!-- idはpluginsにコピーされる時のフォルダ名になる -->
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="ex.customplugin"
+        version="0.1">
+
+  <name>カスタムプラグイン</name>
+  <description>カスタムプラグイン</description>
+
+  <engines>
+    <engine name="cordova-android" version=">=4.0.0" />
+  </engines>
+
+  <js-module src="customplugin.js">
+    <!-- customplugin.js内でmodule.exportsしたパラメーター名を使う -->
+    <clobbers target="navigator.customplugin" />
+  </js-module>
+
+  <!-- android -->
+  <platform name="android">
+
+    <!-- プラグイン追加・削除時にplatfom/android/res/xml/config.xmlに下記の設定を追加・削除する -->
+    <config-file target="res/xml/config.xml" parent="/*">
+      <!-- customplugin.js内のexecの第３引数と対応する -->
+      <feature name="customplugin">
+        <!-- CustomPlugin.javaのパッケージ名を指定 -->
+        <param name="android-package" value="ex.customplugin.CustomPlugin"/>
+      </feature>
+    </config-file>
+
+    <!-- プラグイン追加・削除時にplatfom/android/libsに次のライブラリを追加・削除する -->
+    <source-file src="libs/android/android-support-v4.jar" target-dir="libs" />
+    <source-file src="libs/android/android-support-v7-appcompat.jar" target-dir="libs" />
+
+    <!-- プラグイン追加・削除時にplatfom/android/src/ex/custompluginに次のJavaソースファイルを追加・削除する -->
+    <source-file src="src/android/CustomPlugin.java" target-dir="src/ex/customplugin" />
+
+  </platform>
+
+</plugin>
